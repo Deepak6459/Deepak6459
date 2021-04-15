@@ -1,0 +1,10 @@
+# PYTHON EXAMPLE 
+1.
+finding= ' my name is deepak soni and when i was on ninth class. i saw a monkey'
+for word in finding.split():
+    if word[0]=='w':
+        print(word)
+when
+was
+2.
+
