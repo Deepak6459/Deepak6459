@@ -1,10 +1,16 @@
 # PYTHON EXAMPLE 
-1.
+1. ( To find word that start with the letter W )
+
 finding= ' my name is deepak soni and when i was on ninth class. i saw a monkey'
 for word in finding.split():
     if word[0]=='w':
         print(word)
 when
 was
-2.
 
+2. ( Find even number between 0 to 20 )
+
+list(range(0,20,2))
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+
+3. 
