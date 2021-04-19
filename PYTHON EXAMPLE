@@ -63,3 +63,34 @@ first= float(input('put first number'))
 second= float(input('put second number'))
 sum = first + second
 print('your sum is ' + str(sum))
+
+
+----------------------------------------------------------------------------
+
+8. ( to find lesser number is two no are even else show max no )
+
+ def lesser_of_two_number(a,b):
+        if a%2==0 and b%2==0:
+            return min(a,b)
+        else:
+            return max(a,b)
+            
+           
+ -------------------------------------------------------------------------
+            
+9. ( min and max number between two number (
+
+
+num_first= float(input(' Enter first number '))
+num_sec= float(input(' Enter second number '))
+
+if num_first > num_sec:
+    print( 'lesser nummber is ', num_sec)
+else:
+    print('lesser number is ', num_first)
+
+----------------------------------------------------------------------------------
+
+
+
+
