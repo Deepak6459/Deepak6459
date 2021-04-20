@@ -103,6 +103,17 @@ def write_name(name):
   'MacDonald'
 
 -----------------------------------------------------------------------------------------------
+11 ( #MASTER YODA: Given a sentence, return a sentence with the words reversed )
+
+def name_reverse(name):
+    return " ".join(name.split() [::-1])
+ 
+ name_reverse('i am deepak ')
+ 'deepak am i
+ 
+ ----------------------------------------------------------------------------------------------
+ 
+ 12
 
 
 
