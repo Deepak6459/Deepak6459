@@ -1,0 +1,170 @@
+from tkinter import *
+from tkinter.ttk import Combobox,Treeview,Scrollbar,Style
+import sqlite3 as sql
+from PIL import Image,ImageTk 
+from tkinter import messagebox
+
+con=sql.connect(database='the8foods')
+cur=con.cursor()
+cur.execute('create table stocks(sno int auto_increment primary key, name text, i_name text, unit int, rate int, qty int, amount int)')
+con.commit()
+con.close()
+print('table created')
+
+
+
+win=Tk()
+win.state('zoomed')
+win.configure(bg='white')
+win.resizable(width=False,height=False)
+lbl_title=Label(win,text="Inventory Managment System\nThe8Foods",font=('Algerian',30),bg='white')
+lbl_title.place(relx=.3,rely=.06)
+
+login_img=Image.open("D:\logo.jpeg").resize((200,200))
+login_imgtk=ImageTk.PhotoImage(login_img)
+
+
+def main_frame():
+    
+    frm=Frame(win,highlightbackground='yellow',highlightthickness=3)
+    frm.configure(bg='#fcad00')
+    frm.place(relx=.23,rely=.2,height=500,width=800)
+    
+    def submit(event):
+        l=login_entry.get()
+        p=Pass_entry.get()
+        if (len(l)==0 or len(p)==0):
+            messagebox.showerror('Login','Please fill both fields')
+        else:
+            if (l=='a'and p=='a'):
+                messagebox.showinfo('Login','Login success')
+                frm.destroy()
+                seller_win()
+            else:
+                messagebox.showerror('Login','Incorrect Details')
+                
+    
+    lbl_login=Label(frm,text='Login ID:',font=('Arial',16,'bold'),bg='#fcad00')
+    lbl_login.place(relx=.1,rely=.2)
+
+    lbl_pass=Label(frm,text='Password:',font=('Arial',16,'bold'),bg='#fcad00')
+    lbl_pass.place(relx=.1,rely=.4)
+    
+    login_entry=Entry(frm,font=('arial',14))
+    login_entry.place(relx=.1,rely=.3)
+    
+    Pass_entry=Entry(frm,font=('arial',16),show='*')
+    Pass_entry.place(relx=.1,rely=.5)
+    
+    login_btn=Label(frm,image=login_imgtk,bg='#fcad00')
+    login_btn.place(relx=.55,rely=.25)
+    
+    submit_btn=Button(frm,text='Submit',font=('Arial',16,'bold'))
+    submit_btn.place(relx=.1,rely=.6)
+    submit_btn.bind('<Button>',submit)
+    
+    end_line=Label(frm,text='BY EIGH8 INDUSTRIES',font=('Arial',10,'bold'),bg='#fcad00')
+    end_line.place(relx=.4,rely=.95)
+    
+def seller_win():
+    
+    def add_db():
+        op2=n_entry.get()
+        op3=i_entry.get()
+        op4=u_entry.get()
+        op5=r_entry.get()
+        op6=q_entry.get()
+        op7=x_entry.get()
+        
+        con=sql.connect(database='the8foods.sqlite')
+        cur=con.cursor()
+        cur.execute('select max(sno) from stocks')
+        op1=cur.fetchone()[0]
+        try:
+            op1+=1
+        except:
+            pass
+        #cur.commit()
+        con.close()
+        
+        con=sql.connect(database='the8foods.sqlite')
+        cur=con.cursor()
+        cur.execute('insert into stocks(?,?,?,?,?,?,?)',(op1,op2,op3,op4,op5,op6,op7))
+        con.commit()
+        con.close()
+        messagebox.showinfo('Inserted','Submit Successfully')
+        s_entry.delete(0,'end')
+        n_entry.delete(0,'end')
+        i_entry.delete(0,'end')
+        u_entry.delete(0,'end')
+        r_entry.delete(0,'end')
+        q_entry.delete(0,'end')
+        x_entry.delete(0,'end')
+        n_entry.focus()
+        
+
+        
+    
+    frm=Frame(win,highlightbackground='yellow',highlightthickness=3)
+    frm.configure(bg='#fcad00')
+    frm.place(relx=0,rely=.2,relheight=.8,relwidth=1)
+    
+    wel_lbl=Label(frm,text='Welcome to seller portal',font=('Arial',18,'bold'),bg='#fcad00')
+    wel_lbl.place(relx=.4,rely=.0)
+            
+    s_lbl=Label(frm,text='S.No:',font=('Arial',12,'bold'),bg='#fcad00')
+    s_lbl.place(relx=.1,rely=.2)
+    
+    n_lbl=Label(frm,text='Name:',font=('Arial',12,'bold'),bg='#fcad00')
+    n_lbl.place(relx=.1,rely=.25)
+    
+    in_lbl=Label(frm,text='Item name:',font=('Arial',12,'bold'),bg='#fcad00')
+    in_lbl.place(relx=.2,rely=.3)
+    
+    u_lbl=Label(frm,text='Unit:',font=('Arial',12,'bold'),bg='#fcad00')
+    u_lbl.place(relx=.2,rely=.35)
+    
+    r_lbl=Label(frm,text='Rate:',font=('Arial',12,'bold'),bg='#fcad00')
+    r_lbl.place(relx=.2,rely=.4)
+    
+    q_lbl=Label(frm,text='Qty:',font=('Arial',12,'bold'),bg='#fcad00')
+    q_lbl.place(relx=.2,rely=.45)
+    
+    a_lbl=Label(frm,text='Amount:',font=('Arial',12,'bold'),bg='#fcad00')                              
+    a_lbl.place(relx=.2,rely=.5)
+    
+    s_entry=Entry(frm,font=('Arial',12,'bold'))
+    s_entry.place(relx=.15,rely=.2)
+    
+    n_entry=Entry(frm,font=('Arial',12,'bold'))
+    n_entry.place(relx=.15,rely=.25)
+    
+    i_entry=Combobox(frm,font=('Arial',12,'bold'),values=['Red Chilli powder','Turmeric Powder','Coriander Powder','Garam Masala Powder','Black salt',
+    'Cumin(Jeera)','Black Mustard Seeds',
+    'Bay Leaf(Tej Patta)','Cardamom','Coriander Seed','Cinnamon(Dal-Chini)','Clove(Long)','Fenugreek(Methi)',
+    'Nutmeg(Jayaphal)','Black Pepper(Gul-Mohor)','Asafoetida(Hing)',
+    'Mace(Gada)','Fennel(Saumph)','Mustard Seeds(Sarso)','Carom(Ajwain)','Dill(Soa)','Mint(Pudina) Powder',
+    'Nigella Seeds(Kalonji)','Caraway Seeds(Kala Jeera)','Curry Leaves','Star Anise(Chakra Phool)'])
+    i_entry.place(relx=.3,rely=.3)
+                     
+                     
+    u_entry=Entry(frm,font=('Arial',12,'bold'))
+    u_entry.place(relx=.3,rely=.35)
+    
+    r_entry=Entry(frm,font=('Arial',12,'bold'))
+    r_entry.place(relx=.3,rely=.4)
+    
+    q_entry=Entry(frm,font=('Arial',12,'bold'))
+    q_entry.place(relx=.3,rely=.45)
+    
+    x_entry=Entry(frm,font=('Arial',12,'bold'))
+    x_entry.place(relx=.3,rely=.5)
+    
+    add_btn=Button(frm,text='Add',font=('Arial',12,'bold'),width=10,command=add_db)
+    add_btn.place(relx=.2,rely=.6)
+    
+    upt_btn=Button(frm,text='Update',font=('Arial',12,'bold'),width=10)
+    upt_btn.place(relx=.3,rely=.6)
+    
+main_frame()   
+win.mainloop()
